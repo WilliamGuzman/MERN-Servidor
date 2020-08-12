@@ -22,8 +22,8 @@ app.use('/api/proyectos', require('./routes/proyectos'));
 app.use('/api/tareas', require('./routes/tareas'));
 
 // Puerto de la App
-const PORT = process.env.PORT || 4000;
+const port = process.env.port || 4000;
 
-app.listen(PORT, () => {
+app.listen(port, '0.0.0.0' , () => {
     console.log(`El servidor esta funcionando en el puerto ${PORT}`);
 })
