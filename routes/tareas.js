@@ -26,9 +26,6 @@ router.get('/',
 //Actualizar tarea
 router.put('/:id',
     auth,
-    [
-        check('nombre', 'El nombre es obligatorio').not().isEmpty()
-    ],
     tareaController.actualizarTarea
 );
 

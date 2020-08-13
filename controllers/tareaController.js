@@ -4,6 +4,8 @@ const { validationResult } = require('express-validator');
 
 //Crear Tarea
 exports.crearTarea = async ( req, res ) => {
+
+
     //Revisar si hay errores
     const errores = validationResult(req);
     if ( !errores.isEmpty() ) {
@@ -17,6 +19,7 @@ exports.crearTarea = async ( req, res ) => {
         const { proyecto } = req.body;
         
         const existeProyecto = await Proyecto.findById(proyecto);
+        
         if( !existeProyecto ){
             return res.status(404).json({ msg: 'Proyecto no encontrado'});
         }
@@ -28,6 +31,7 @@ exports.crearTarea = async ( req, res ) => {
 
         //Creamos la tarea
         const tarea = new Tarea(req.body);
+        
         await tarea.save();
         res.json({ tarea });
 
@@ -39,13 +43,15 @@ exports.crearTarea = async ( req, res ) => {
 
 //Obtener tarea por poryecto
 exports.obtenerTareas = async ( req, res ) => {
-    
+
+    console.log(req.query);
     try {
         
         //Extraer el proyecto y comprobar si existe
         const { proyecto } = req.query;
         
         const existeProyecto = await Proyecto.findById(proyecto);
+        
         if( !existeProyecto ){
             return res.status(404).json({ msg: 'Proyecto no encontrado'});
         }
@@ -71,7 +77,7 @@ exports.obtenerTareas = async ( req, res ) => {
             
             //Extraer el proyecto y comprobar si existe
             const { proyecto, nombre, estado } = req.body;
-            
+
             //Si la tarea existe o no
             let tarea = await Tarea.findById(req.params.id);
             if (!tarea) {
@@ -80,6 +86,7 @@ exports.obtenerTareas = async ( req, res ) => {
     
             //Extraer proyecto
             const existeProyecto = await Proyecto.findById(proyecto);
+            
 
             //Revisar si el proyecto actual pertenece al usuario autenticado
             if (existeProyecto.creador.toString() !== req.usuario.id) {
